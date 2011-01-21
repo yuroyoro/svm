@@ -6,7 +6,7 @@ Usage :
 Action :
   -h|help             - show this usage information
   -c|current          - show the currently use scala version
-  -l|list|versions    - show the scala version installed in svm_path(default is /Users/ozaki/.svm)
+  -l|list|versions    - show the scala version installed in svm_path(default is ${HOME}/.svm)
   -i|install          - install specific scala version
   -r|remove|uninstall - uninstall specific scala version and remove their sources
   -s|switch|-u|use    - setup to use a specific scala version
@@ -21,6 +21,7 @@ Options :
   --no-sources - with install, update-latest.skip to download scala-sources.
 
 Info :
+  more info(Japanese) : http://d.hatena.ne.jp/yuroyoro/20110121/1295610398
   ゆろよろ Tomohito Ozaki
   blog   : http://d.hatena.ne.jp/yuroyoro/
   twitter: http://twitter.com/yuroyoro/
