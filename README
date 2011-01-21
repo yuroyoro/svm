@@ -1,0 +1,26 @@
+Scala Version Manager ( svm )
+
+Usage :
+  svm [Action] [Scala-Version] [Options]
+
+Action :
+  -h|help             - show this usage information
+  -c|current          - show the currently use scala version
+  -l|list|versions    - show the scala version installed in svm_path(default is /Users/ozaki/.svm)
+  -i|install          - install specific scala version
+  -r|remove|uninstall - uninstall specific scala version and remove their sources
+  -s|switch|-u|use    - setup to use a specific scala version
+  update-latest       - install or update nightly build scala version
+  latest              - setup to use nightly build scala version
+  stable              - setup to use stable(x.x.x.final) scala version
+  (any strings)       - setup to use specific scala version(shortcut of svm switch)
+
+
+Options :
+  --no-docs    - with install, update-latest.skip to download scala-devel-docs.
+  --no-sources - with install, update-latest.skip to download scala-sources.
+
+Info :
+  ゆろよろ Tomohito Ozaki
+  blog   : http://d.hatena.ne.jp/yuroyoro/
+  twitter: http://twitter.com/yuroyoro/
