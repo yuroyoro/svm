@@ -51,7 +51,7 @@ do
 done
 
 if [ $path_included -eq 0 ] ; then
-  echo "warging: You don't have ${BASE_DIR}/current/rt/bin in your PATH."
+  echo "warning: You don't have ${BASE_DIR}/current/rt/bin in your PATH."
 fi
 
 usage() {
