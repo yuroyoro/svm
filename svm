@@ -29,6 +29,39 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+NEXT_VERSION="2.9.0"
+AVAILABLE_VERSIONS=`cat <<EOS
+2.5.0.final
+2.5.1.final
+2.6.0.final
+2.7.0.final
+2.7.1.final
+2.7.2.final
+2.7.3.final
+2.7.4.final
+2.7.5.final
+2.7.6.final
+2.7.7.RC1
+2.7.7.RC2
+2.7.7.final
+2.8.0.Beta1-RC1
+2.8.0.Beta1-RC2
+2.8.0.Beta1-prerelease
+2.8.0.RC1
+2.8.0.RC2
+2.8.0.RC3
+2.8.0.RC4
+2.8.0.RC5
+2.8.0.RC6
+2.8.0.RC7
+2.8.0.final
+2.8.1.RC1
+2.8.1.RC2
+2.8.1.RC3
+2.8.1.RC4
+2.8.1.final
+EOS`
+
 BASE_DIR="${SCALA_INSTALLED_DIR}"
 if [ -z "${BASE_DIR}" ] ; then
   BASE_DIR="${HOME}/.svm"
@@ -63,7 +96,8 @@ Usage :
 Action :
   -h|help             - show this usage information
   -c|current          - show the currently use scala version
-  -l|list|versions    - show the scala version installed in svm_path(default is $HOME/.svm)
+  -l|list             - show the scala version installed in svm_path(default is $HOME/.svm)
+  -v|versions         - show the abalabe scala version not installed
   -i|install          - install specific scala version
   -r|remove|uninstall - uninstall specific scala version and remove their sources
   -s|switch|-u|use    - setup to use a specific scala version
@@ -100,6 +134,29 @@ yes_no() {
 
 list(){
   find "${BASE_DIR}" -maxdepth 1 -d -print0 | xargs -0 basename | grep 'scala' | sed 's/scala-//'
+}
+
+versions(){
+  installed_versions=`find "${BASE_DIR}" -maxdepth 1 -d -print0 | xargs -0 basename | grep 'scala' | sed 's/scala-//'`
+
+  for v in ${AVAILABLE_VERSIONS}
+  do
+    for i in ${installed_versions}
+    do
+      if [ "${v}" = "${i}" ] ; then
+        installed=1
+      fi
+    done
+    if [ -z "${installed}" ] ;then
+      echo "${v}"
+    fi
+    unset installed
+  done
+  cat << EOS
+more previous releases
+see http://www.scala-lang.org/node/165
+
+EOS
 }
 
 install(){
@@ -196,7 +253,6 @@ uninstall(){
 }
 
 update_latest(){
-  NEXT_VERSION="2.9.0"
   latest_dir="${BASE_DIR}/scala-latest"
 
   if [ -d "${latest_dir}" ] ; then
@@ -364,9 +420,10 @@ else
   case "$cmd" in
     -h|help)             usage ;;
     -c|current)          current ;;
-    -l|list|versions)    list
+    -l|list)             list
                          current
                          ;;
+    -v|versions)         versions ;;
     -i|install)          install $2
                          if [ $? -eq 0 ]; then
                            confirm_switch $2
