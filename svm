@@ -133,11 +133,11 @@ yes_no() {
 }
 
 list(){
-  find "${BASE_DIR}" -maxdepth 1 -d -print0 | xargs -0 basename | grep 'scala' | sed 's/scala-//'
+  find "${BASE_DIR}" -maxdepth 1 -d -printf "%f\n" | grep 'scala' | sed 's/scala-//'
 }
 
 versions(){
-  installed_versions=`find "${BASE_DIR}" -maxdepth 1 -d -print0 | xargs -0 basename | grep 'scala' | sed 's/scala-//'`
+  installed_versions=`find "${BASE_DIR}" -maxdepth 1 -d -printf "%f\n" | grep 'scala' | sed 's/scala-//'`
 
   for v in ${AVAILABLE_VERSIONS}
   do
@@ -391,10 +391,10 @@ get_current(){
 }
 
 get_stable(){
-  version=`find "${BASE_DIR}" -maxdepth 1 -d -print0 | xargs -0 basename | grep 'scala' | sed 's/scala-//' | grep "final" | tail -1`
+  version=`find "${BASE_DIR}" -maxdepth 1 -d -printf "%f\n" | grep 'scala' | sed 's/scala-//' | grep "final" | tail -1`
 
   if [ -z "${version}" ] ; then
-    version=`find "${BASE_DIR}" -maxdepth 1 -d -print0 | xargs -0 basename | grep 'scala' | sed 's/scala-//' | grep -e "[0-9].*" | tail -1`
+    version=`find "${BASE_DIR}" -maxdepth 1 -d -printf "%f\n" | grep 'scala' | sed 's/scala-//' | grep -e "[0-9].*" | tail -1`
   fi
 
   eval $1="${version}"
