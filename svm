@@ -375,7 +375,7 @@ switch(){
   fi
 
   rm "${BASE_DIR}/current"
-  ln -fs "${version_dir}" "${BASE_DIR}/current"
+  ln -fs "scala-${version}" "${BASE_DIR}/current"
   echo "currently version is $1"
 }
 
