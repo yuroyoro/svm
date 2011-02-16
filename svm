@@ -133,11 +133,11 @@ yes_no() {
 }
 
 list(){
-  find "${BASE_DIR}" -maxdepth 1 -d -printf "%f\n" | grep 'scala' | sed 's/scala-//'
+  find "${BASE_DIR}" -maxdepth 1 -depth -printf "%f\n" | grep 'scala' | sed 's/scala-//'
 }
 
 versions(){
-  installed_versions=`find "${BASE_DIR}" -maxdepth 1 -d -printf "%f\n" | grep 'scala' | sed 's/scala-//'`
+  installed_versions=`find "${BASE_DIR}" -maxdepth 1 -depth -printf "%f\n" | grep 'scala' | sed 's/scala-//'`
 
   for v in ${AVAILABLE_VERSIONS}
   do
@@ -277,7 +277,7 @@ update_latest(){
   fi
 
   tar -xf scala-${NEXT_VERSION}.latest.tgz
-  EXTRACTED_DIR=`find . -maxdepth 1 -d -regex ".*scala-${ESCAPED}\.r.*"`
+  EXTRACTED_DIR=`find . -maxdepth 1 -depth -regex ".*scala-${ESCAPED}\.r.*"`
   rev="${EXTRACTED_DIR//scala-/}"
   mv "${EXTRACTED_DIR}" rt
   rm scala-${NEXT_VERSION}.latest.tgz
@@ -295,7 +295,7 @@ update_latest(){
     fi
 
     tar -xf scala-${NEXT_VERSION}.latest-devel-docs.tgz
-    EXTRACTED_DIR=`find . -maxdepth 1 -d -regex ".*scala-${ESCAPED}\.r.*"`
+    EXTRACTED_DIR=`find . -maxdepth 1 -depth -regex ".*scala-${ESCAPED}\.r.*"`
     mv "${EXTRACTED_DIR}" devel-docs
     rm scala-${NEXT_VERSION}.latest-devel-docs.tgz
   fi
@@ -313,7 +313,7 @@ update_latest(){
     fi
 
     tar -xf scala-${NEXT_VERSION}.latest-sources.tgz
-    EXTRACTED_DIR=`find . -maxdepth 1 -d -regex ".*scala-${ESCAPED}\.r.*"`
+    EXTRACTED_DIR=`find . -maxdepth 1 -depth -regex ".*scala-${ESCAPED}\.r.*"`
     mv "${EXTRACTED_DIR}" sources
     rm scala-${NEXT_VERSION}.latest-sources.tgz
   fi
@@ -391,10 +391,10 @@ get_current(){
 }
 
 get_stable(){
-  version=`find "${BASE_DIR}" -maxdepth 1 -d -printf "%f\n" | grep 'scala' | sed 's/scala-//' | grep "final" | tail -1`
+  version=`find "${BASE_DIR}" -maxdepth 1 -depth -printf "%f\n" | grep 'scala' | sed 's/scala-//' | grep "final" | tail -1`
 
   if [ -z "${version}" ] ; then
-    version=`find "${BASE_DIR}" -maxdepth 1 -d -printf "%f\n" | grep 'scala' | sed 's/scala-//' | grep -e "[0-9].*" | tail -1`
+    version=`find "${BASE_DIR}" -maxdepth 1 -depth -printf "%f\n" | grep 'scala' | sed 's/scala-//' | grep -e "[0-9].*" | tail -1`
   fi
 
   eval $1="${version}"
