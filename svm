@@ -324,6 +324,7 @@ update_latest(){
     rm scala-${NEXT_VERSION}.latest-sources.tgz
   fi
 
+  rm -rf "${latest_dir}_bak"
   cd "${PWD}"
   echo "Successfully updated scala-latest to revision of ${rev}"
   return 0;
