@@ -129,8 +129,8 @@ Action :
 
 
 Options :
-  --no-docs    - with install, update-latest.skip to download scala-devel-docs.
-  --no-sources - with install, update-latest.skip to download scala-sources.
+  --docs    - with install, update-latest. to download scala-devel-docs.
+  --sources - with install, update-latest. to download scala-sources.
 
 Info :
   ゆろよろ Tomohito Ozaki
@@ -218,7 +218,7 @@ install(){
   mv scala-${version} rt
   rm scala-${version}.tgz
 
-  if [ -z "${no_docs_on}" ] ; then
+  if [ ${docs_on} -eq 1 ] ; then
     wget "${dist_url}/scala-${version}-devel-docs.tgz"
     if [ $? -ne 0 ]; then
       echo "Failed to download ${dist_url}/scala-${version}-devel-docs.tgz"
@@ -233,7 +233,7 @@ install(){
   fi
 
 
-  if [ -z "${no_source_on}" ] ; then
+  if [ ${source_on} -eq 1 ] ; then
     wget "${dist_url}/scala-${version}-sources.tgz"
     if [ $? -ne 0 ]; then
       echo "Failed to download ${dist_url}/scala-${version}-sources.tgz"
@@ -292,9 +292,9 @@ update_latest(){
   ESCAPED=${NEXT_VERSION//\./\\\.}
   dist_url="http://www.scala-lang.org/archives/downloads/distrib/files/nightly/distributions"
 
-  wget "${dist_url}/scala-${NEXT_VERSION}.latest.tgz"
+  wget "${dist_url}/scala-${NEXT_VERSION}-latest.tgz"
   if [ $? -ne 0 ]; then
-    echo "Failed to download ${dist_url}/scala-${NEXT_VERSION}.latest.tgz"
+    echo "Failed to download ${dist_url}/scala-${NEXT_VERSION}-latest.tgz"
     cd "${PWD}"
     rm -rf "${latest_dir}"
     if [ -d "${latest_dir}_bak" ] ;then
@@ -303,16 +303,16 @@ update_latest(){
     return 1;
   fi
 
-  tar -xf scala-${NEXT_VERSION}.latest.tgz
+  tar -xf scala-${NEXT_VERSION}-latest.tgz
   EXTRACTED_DIR=`find . -maxdepth 1 -depth -regex ".*scala-${ESCAPED}\.r.*"`
   rev="${EXTRACTED_DIR//scala-/}"
   mv "${EXTRACTED_DIR}" rt
-  rm scala-${NEXT_VERSION}.latest.tgz
+  rm scala-${NEXT_VERSION}-latest.tgz
 
-  if [ -z "${no_docs_on}" ] ; then
-    wget "${dist_url}/scala-${NEXT_VERSION}.latest-devel-docs.tgz"
+  if [ ${docs_on} -eq 1 ] ; then
+    wget "${dist_url}/scala-${NEXT_VERSION}-latest-devel-docs.tgz"
     if [ $? -ne 0 ]; then
-      echo "Failed to download ${dist_url}/scala-${NEXT_VERSION}latest-devel-docs.tgz"
+      echo "Failed to download ${dist_url}/scala-${NEXT_VERSION}-latest-devel-docs.tgz"
       cd "${PWD}"
       rm -rf "${latest_dir}"
       if [ -d "${latest_dir}_bak" ] ;then
@@ -321,16 +321,16 @@ update_latest(){
       return 1;
     fi
 
-    tar -xf scala-${NEXT_VERSION}.latest-devel-docs.tgz
+    tar -xf scala-${NEXT_VERSION}-latest-devel-docs.tgz
     EXTRACTED_DIR=`find . -maxdepth 1 -depth -regex ".*scala-${ESCAPED}\.r.*"`
     mv "${EXTRACTED_DIR}" devel-docs
-    rm scala-${NEXT_VERSION}.latest-devel-docs.tgz
+    rm scala-${NEXT_VERSION}-latest-devel-docs.tgz
   fi
 
-  if [ -z "${no_source_on}" ] ; then
-    wget "${dist_url}/scala-${NEXT_VERSION}.latest-sources.tgz"
+  if [ ${source_on} -eq 1 ] ; then
+    wget "${dist_url}/scala-${NEXT_VERSION}-latest-sources.tgz"
     if [ $? -ne 0 ]; then
-      echo "Failed to download ${dist_url}/scala-${NEXT_VERSION}latest-sources.tgz"
+      echo "Failed to download ${dist_url}/scala-${NEXT_VERSION}-latest-sources.tgz"
       cd "${PWD}"
       rm -rf "${latest_dir}"
       if [ -d "${latest_dir}_bak" ] ;then
@@ -339,10 +339,10 @@ update_latest(){
       return 1;
     fi
 
-    tar -xf scala-${NEXT_VERSION}.latest-sources.tgz
+    tar -xf scala-${NEXT_VERSION}-latest-sources.tgz
     EXTRACTED_DIR=`find . -maxdepth 1 -depth -regex ".*scala-${ESCAPED}\.r.*"`
     mv "${EXTRACTED_DIR}" sources
-    rm scala-${NEXT_VERSION}.latest-sources.tgz
+    rm scala-${NEXT_VERSION}-latest-sources.tgz
   fi
 
   rm -rf "${latest_dir}_bak"
@@ -443,8 +443,8 @@ cmd="$1"
 for o in $*
 do
   case "${o}" in
-    --no-sources)   no_source_on=1  ;;
-    --no-docs)      no_docs_on=1    ;;
+    --sources)   source_on=1  ;;
+    --docs)      docs_on=1    ;;
     * )             ;;
   esac
 done
