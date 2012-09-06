@@ -124,8 +124,8 @@ Action :
 
 
 Options :
-  --no-docs    - with install, update-latest.skip to download scala-devel-docs.
-  --no-sources - with install, update-latest.skip to download scala-sources.
+  --docs    - with install, update-latest. to download scala-devel-docs.
+  --sources - with install, update-latest. to download scala-sources.
 
 Info :
   ゆろよろ Tomohito Ozaki
@@ -213,7 +213,7 @@ install(){
   mv scala-${version} rt
   rm scala-${version}.tgz
 
-  if [ -z "${no_docs_on}" ] ; then
+  if [ ${docs_on} -eq 1 ] ; then
     wget "${dist_url}/scala-${version}-devel-docs.tgz"
     if [ $? -ne 0 ]; then
       echo "Failed to download ${dist_url}/scala-${version}-devel-docs.tgz"
@@ -228,7 +228,7 @@ install(){
   fi
 
 
-  if [ -z "${no_source_on}" ] ; then
+  if [ ${source_on} -eq 1 ] ; then
     wget "${dist_url}/scala-${version}-sources.tgz"
     if [ $? -ne 0 ]; then
       echo "Failed to download ${dist_url}/scala-${version}-sources.tgz"
@@ -304,7 +304,7 @@ update_latest(){
   mv "${EXTRACTED_DIR}" rt
   rm scala-${NEXT_VERSION}.latest.tgz
 
-  if [ -z "${no_docs_on}" ] ; then
+  if [ ${docs_on} -eq 1 ] ; then
     wget "${dist_url}/scala-${NEXT_VERSION}.latest-devel-docs.tgz"
     if [ $? -ne 0 ]; then
       echo "Failed to download ${dist_url}/scala-${NEXT_VERSION}latest-devel-docs.tgz"
@@ -322,7 +322,7 @@ update_latest(){
     rm scala-${NEXT_VERSION}.latest-devel-docs.tgz
   fi
 
-  if [ -z "${no_source_on}" ] ; then
+  if [ ${source_on} -eq 1 ] ; then
     wget "${dist_url}/scala-${NEXT_VERSION}.latest-sources.tgz"
     if [ $? -ne 0 ]; then
       echo "Failed to download ${dist_url}/scala-${NEXT_VERSION}latest-sources.tgz"
@@ -438,8 +438,8 @@ cmd="$1"
 for o in $*
 do
   case "${o}" in
-    --no-sources)   no_source_on=1  ;;
-    --no-docs)      no_docs_on=1    ;;
+    --sources)   source_on=1  ;;
+    --docs)      docs_on=1    ;;
     * )             ;;
   esac
 done
