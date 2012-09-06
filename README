@@ -17,8 +17,8 @@ Action :
 
 
 Options :
-  --no-docs    - with install, update-latest.skip to download scala-devel-docs.
-  --no-sources - with install, update-latest.skip to download scala-sources.
+  --docs    - with install, update-latest download scala-devel-docs.
+  --sources - with install, update-latest download scala-sources.
 
 Info :
   more info(Japanese) : http://d.hatena.ne.jp/yuroyoro/20110121/1295610398
