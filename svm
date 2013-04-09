@@ -447,6 +447,11 @@ get_stable(){
 
 cmd="$1"
 
+# download scala-sources if source_on=1
+source_on=0
+# download scala-devel-docs if docs_on=1
+docs_on=0
+
 for o in $*
 do
   case "${o}" in
