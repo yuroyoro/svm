@@ -199,7 +199,7 @@ EOS
 
 download(){
   url="$1"
-  echo >&2 "downloading $url"
+  echo "Downloading $url"
   if which wget > /dev/null 2>&1; then
     wget "$url"
   elif which curl > /dev/null 2>&1; then
@@ -217,7 +217,7 @@ download(){
 install(){
   version=$1
   echo "Trying to installing version of ${version}."
-  dist_url="http://www.scala-lang.org/downloads/distrib/files"
+  dist_url="http://www.scala-lang.org/files/archive"
   version_dir="${BASE_DIR}/scala-${version}"
   if [ -d "${version_dir}" ]
   then
@@ -315,7 +315,7 @@ update_latest(){
   echo "in ${latest_dir}"
 
   ESCAPED=${NEXT_VERSION//\./\\\.}
-  dist_url="http://www.scala-lang.org/archives/downloads/distrib/files/nightly/distributions"
+  dist_url="http://www.scala-lang.org/files/archive/nightly/distributions"
 
   download "${dist_url}/scala-${NEXT_VERSION}-latest.tgz"
   if [ $? -ne 0 ]; then
