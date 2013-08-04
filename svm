@@ -197,10 +197,27 @@ see http://www.scala-lang.org/node/165
 EOS
 }
 
+download(){
+  url="$1"
+  echo "Downloading $url"
+  if which wget > /dev/null 2>&1; then
+    wget "$url"
+  elif which curl > /dev/null 2>&1; then
+    curl -O -L "$url"
+  else
+    echo >&2 "wget or curl is required"
+    return 1
+  fi
+  if [ $? -ne 0 ]; then
+    echo >&2 "Failed to download $url"
+    return 1
+  fi
+}
+
 install(){
   version=$1
   echo "Trying to installing version of ${version}."
-  dist_url="http://www.scala-lang.org/downloads/distrib/files"
+  dist_url="http://www.scala-lang.org/files/archive"
   version_dir="${BASE_DIR}/scala-${version}"
   if [ -d "${version_dir}" ]
   then
@@ -217,9 +234,8 @@ install(){
   cd "${version_dir}"
   echo "in ${version_dir}"
 
-  wget "${dist_url}/scala-${version}.tgz"
+  download "${dist_url}/scala-${version}.tgz"
   if [ $? -ne 0 ]; then
-    echo "Failed to download ${dist_url}/scala-${version}.tgz"
     cd "${PWD}"
     rm -rf "${version_dir}"
     return 1;
@@ -230,9 +246,8 @@ install(){
   rm scala-${version}.tgz
 
   if [ ${docs_on} -eq 1 ] ; then
-    wget "${dist_url}/scala-${version}-devel-docs.tgz"
+    download "${dist_url}/scala-${version}-devel-docs.tgz"
     if [ $? -ne 0 ]; then
-      echo "Failed to download ${dist_url}/scala-${version}-devel-docs.tgz"
       cd "${PWD}"
       rm -rf "${version_dir}"
       return 1;
@@ -245,9 +260,8 @@ install(){
 
 
   if [ ${source_on} -eq 1 ] ; then
-    wget "${dist_url}/scala-${version}-sources.tgz"
+    download "${dist_url}/scala-${version}-sources.tgz"
     if [ $? -ne 0 ]; then
-      echo "Failed to download ${dist_url}/scala-${version}-sources.tgz"
       cd "${PWD}"
       rm -rf "${version_dir}"
       return 1;
@@ -301,11 +315,10 @@ update_latest(){
   echo "in ${latest_dir}"
 
   ESCAPED=${NEXT_VERSION//\./\\\.}
-  dist_url="http://www.scala-lang.org/archives/downloads/distrib/files/nightly/distributions"
+  dist_url="http://www.scala-lang.org/files/archive/nightly/distributions"
 
-  wget "${dist_url}/scala-${NEXT_VERSION}-latest.tgz"
+  download "${dist_url}/scala-${NEXT_VERSION}-latest.tgz"
   if [ $? -ne 0 ]; then
-    echo "Failed to download ${dist_url}/scala-${NEXT_VERSION}-latest.tgz"
     cd "${PWD}"
     rm -rf "${latest_dir}"
     if [ -d "${latest_dir}_bak" ] ;then
@@ -321,9 +334,8 @@ update_latest(){
   rm scala-${NEXT_VERSION}-latest.tgz
 
   if [ ${docs_on} -eq 1 ] ; then
-    wget "${dist_url}/scala-${NEXT_VERSION}-latest-devel-docs.tgz"
+    download "${dist_url}/scala-${NEXT_VERSION}-latest-devel-docs.tgz"
     if [ $? -ne 0 ]; then
-      echo "Failed to download ${dist_url}/scala-${NEXT_VERSION}-latest-devel-docs.tgz"
       cd "${PWD}"
       rm -rf "${latest_dir}"
       if [ -d "${latest_dir}_bak" ] ;then
@@ -339,9 +351,8 @@ update_latest(){
   fi
 
   if [ ${source_on} -eq 1 ] ; then
-    wget "${dist_url}/scala-${NEXT_VERSION}-latest-sources.tgz"
+    download "${dist_url}/scala-${NEXT_VERSION}-latest-sources.tgz"
     if [ $? -ne 0 ]; then
-      echo "Failed to download ${dist_url}/scala-${NEXT_VERSION}-latest-sources.tgz"
       cd "${PWD}"
       rm -rf "${latest_dir}"
       if [ -d "${latest_dir}_bak" ] ;then
