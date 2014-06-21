@@ -13,6 +13,7 @@ Action :
   update-latest       - install or update nightly build scala version
   latest              - setup to use nightly build scala version
   stable              - setup to use stable(x.x.x.final) scala version
+  self-update         - update svm itself
   (any strings)       - setup to use specific scala version(shortcut of svm switch)
 
 
