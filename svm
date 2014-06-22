@@ -154,6 +154,7 @@ Action :
   update-latest       - install or update nightly build scala version
   latest              - setup to use nightly build scala version
   stable              - setup to use stable(x.x.x.final) scala version
+  self-update         - update svm itself
   (any strings)       - setup to use specific scala version(shortcut of svm switch)
 
 
@@ -478,7 +479,19 @@ get_stable(){
   return 0;
 }
 
-
+self_update(){
+  echo "Will update svm itself..."
+  path_to_svm=$0
+  tmp_new_script_file=`mktemp -t temp.XXXXXX`
+  curl https://raw.githubusercontent.com/yuroyoro/svm/master/svm > $tmp_new_script_file
+  if [ $? -ne 0 ]; then
+      echo "Failed to download new svm"
+      exit 1;
+  fi
+  mv $tmp_new_script_file $path_to_svm
+  chmod +x $path_to_svm
+  echo "svm successfully updated. ＼＼\\ ٩( 'ω' )و //／／"
+}
 
 cmd="$1"
 
@@ -525,6 +538,8 @@ else
                          switch "latest" ;;
     stable)              get_stable stable
                          switch "${stable}"
+                         ;;
+    self-update)         self_update
                          ;;
     * )                  switch "${cmd}" ;;
   esac
