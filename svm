@@ -186,14 +186,14 @@ yes_no() {
 
 list(){
   case "`uname`" in
-    Darwin*)   find ${BASE_DIR} -maxdepth 1 -d -print0 | xargs -0 basename | grep 'scala' | sed 's/scala-//' ;;
+    Darwin*)   find ${BASE_DIR} -maxdepth 1 -d -print0 | xargs -0 -n 1 basename | grep 'scala' | sed 's/scala-//' ;;
     *)         find ${BASE_DIR} -maxdepth 1 -depth -printf "%f\n" | grep 'scala' | sed 's/scala-//' ;;
   esac
 }
 
 versions(){
   case "`uname`" in
-    Darwin*)   installed_versions=`find ${BASE_DIR} -maxdepth 1 -d -print0 | xargs -0 basename | grep 'scala' | sed 's/scala-//'` ;;
+    Darwin*)   installed_versions=`find ${BASE_DIR} -maxdepth 1 -d -print0 | xargs -0 -n 1 basename | grep 'scala' | sed 's/scala-//'` ;;
     *)         installed_versions=`find ${BASE_DIR} -maxdepth 1 -depth -printf "%f\n" | grep 'scala' | sed 's/scala-//'` ;;
   esac
 
@@ -464,14 +464,14 @@ get_current(){
 
 get_stable(){
   case "`uname`" in
-    Darwin*)   version=`find "${BASE_DIR}" -maxdepth 1 -d -print0 | xargs -0 basename | grep 'scala' | sed 's/scala-//' | grep "final" | tail -1` ;;
+    Darwin*)   version=`find "${BASE_DIR}" -maxdepth 1 -d -print0 | xargs -0 -n 1 basename | grep 'scala' | sed 's/scala-//' | grep "final" | tail -1` ;;
     *)         version=`find "${BASE_DIR}" -maxdepth 1 -depth -printf "%f\n" | grep 'scala' | sed 's/scala-//' | grep "final" | tail -1` ;;
   esac
 
 
   if [ -z "${version}" ] ; then
     case "`uname`" in
-      Darwin*)   version=`find "${BASE_DIR}" -maxdepth 1 -d -print0 | xargs -0 basename | grep 'scala' | sed 's/scala-//' | grep -e "[0-9].*" | tail -1`;;
+      Darwin*)   version=`find "${BASE_DIR}" -maxdepth 1 -d -print0 | xargs -0 -n 1 basename | grep 'scala' | sed 's/scala-//' | grep -e "[0-9].*" | tail -1`;;
       *)         version=`find "${BASE_DIR}" -maxdepth 1 -depth -printf "%f\n" | grep 'scala' | sed 's/scala-//' | grep -e "[0-9].*" | tail -1` ;;
     esac
   fi
