@@ -130,6 +130,39 @@ AVAILABLE_VERSIONS=`cat <<EOS
 2.12.1
 EOS`
 
+# Utility to compare versions
+vercomp () {
+    if [[ $1 == $2 ]]
+    then
+        return 0
+    fi
+    local IFS=.
+    local i ver1=($1) ver2=($2)
+    # fill empty fields in ver1 with zeros
+    for ((i=${#ver1[@]}; i<${#ver2[@]}; i++))
+    do
+        ver1[i]=0
+    done
+    for ((i=0; i<${#ver1[@]}; i++))
+    do
+        if [[ -z ${ver2[i]} ]]
+        then
+            # fill empty fields in ver2 with zeros
+            ver2[i]=0
+        fi
+        if ((10#${ver1[i]} > 10#${ver2[i]}))
+        then
+            return 1
+        fi
+        if ((10#${ver1[i]} < 10#${ver2[i]}))
+        then
+            return 2
+        fi
+    done
+    return 0
+}
+
+
 BASE_DIR="${SCALA_INSTALLED_DIR}"
 if [ -z "${BASE_DIR}" ] ; then
   BASE_DIR="${HOME}/.svm"
@@ -177,7 +210,7 @@ Action :
 
 
 Options :
-  --docs    - with install, update-latest. to download scala-devel-docs.
+  --docs    - with install, update-latest. to download scala-docs.
   --sources - with install, update-latest. to download scala-sources.
 
 Info :
@@ -283,16 +316,31 @@ install(){
   rm scala-${version}.tgz
 
   if [ ${docs_on} -eq 1 ] ; then
-    download "${dist_url}/scala-${version}-devel-docs.tgz"
+    # Starting from 2.9.2, the pattern scala-docs-2.9.2.tgz is used, instead of scala-2.9.1-final-devel-docs.tgz
+    # Documentation download is here supported just for versions having the pattern x.y.z
+    vercomp ${NEXT_VERSION} '2.9.2'
+    case $? in
+        2) # in case NEXT_VERSION < 2.9.2
+        prefix="scala-"
+        suffix="-final-devel-docs"
+        fullSuffix="-final-devel-docs.tgz"
+        ;;
+        *) # in all other cases
+        prefix="scala-docs-"
+        suffix=""
+        fullSuffix=".tgz"
+        ;;
+    esac
+    download "${dist_url}/${prefix}${version}${fullSuffix}"
     if [ $? -ne 0 ]; then
       cd "${PWD}"
       rm -rf "${version_dir}"
       return 1;
     fi
 
-    tar -xf scala-${version}-devel-docs.tgz
-    mv scala-${version}-devel-docs devel-docs
-    rm scala-${version}-devel-docs.tgz
+    tar -xf ${prefix}${version}${fullSuffix}
+    mv scala-${version}${suffix} scala-docs
+    rm ${prefix}${version}${fullSuffix}
   fi
 
 
@@ -371,7 +419,20 @@ update_latest(){
   rm scala-${NEXT_VERSION}-latest.tgz
 
   if [ ${docs_on} -eq 1 ] ; then
-    download "${dist_url}/scala-${NEXT_VERSION}-latest-devel-docs.tgz"
+    # Starting from 2.9.2, the pattern scala-docs-2.9.2.tgz is used, instead of scala-2.9.1-final-devel-docs.tgz
+    # Documentation download is here supported just for versions having the pattern x.y.z
+    vercomp ${NEXT_VERSION} '2.9.2'
+    case $? in
+        2) # in case NEXT_VERSION < 2.9.2
+        prefix="scala-"
+        suffix="-final-devel-docs.tgz"
+        ;;
+        *) # in all other cases
+        prefix="scala-docs-"
+        suffix=".tgz"
+        ;;
+    esac
+    download "${dist_url}/${prefix}${NEXT_VERSION}${suffix}"
     if [ $? -ne 0 ]; then
       cd "${PWD}"
       rm -rf "${latest_dir}"
@@ -381,10 +442,10 @@ update_latest(){
       return 1;
     fi
 
-    tar -xf scala-${NEXT_VERSION}-latest-devel-docs.tgz
+    tar -xf ${prefix}${NEXT_VERSION}${suffix}
     EXTRACTED_DIR=`find . -maxdepth 1 -depth -regex ".*scala-${ESCAPED}\.r.*"`
-    mv "${EXTRACTED_DIR}" devel-docs
-    rm scala-${NEXT_VERSION}-latest-devel-docs.tgz
+    mv "${EXTRACTED_DIR}" scala-docs
+    rm ${prefix}${NEXT_VERSION}${suffix}
   fi
 
   if [ ${source_on} -eq 1 ] ; then
