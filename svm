@@ -228,8 +228,8 @@ Options :
 
 Info :
   ゆろよろ Tomohito Ozaki
-  blog   : http://yuroyoro.hatenablog.com/
-  twitter: http://twitter.com/yuroyoro/
+  blog   : https://yuroyoro.hatenablog.com/
+  twitter: https://twitter.com/yuroyoro/
 
 EOS
 }
@@ -275,7 +275,7 @@ versions(){
   done
   cat << EOS
 more previous releases
-see http://www.scala-lang.org/node/165
+see https://www.scala-lang.org/node/165
 
 EOS
 }
@@ -300,7 +300,7 @@ download(){
 install(){
   version=$1
   echo "Trying to installing version of ${version}."
-  dist_url="http://www.scala-lang.org/files/archive"
+  dist_url="https://www.scala-lang.org/files/archive"
   version_dir="${BASE_DIR}/scala-${version}"
   if [ -d "${version_dir}" ]
   then
@@ -413,7 +413,7 @@ update_latest(){
   echo "in ${latest_dir}"
 
   ESCAPED=${NEXT_VERSION//\./\\\.}
-  dist_url="http://www.scala-lang.org/files/archive/nightly/distributions"
+  dist_url="https://www.scala-lang.org/files/archive/nightly/distributions"
 
   download "${dist_url}/scala-${NEXT_VERSION}-latest.tgz"
   if [ $? -ne 0 ]; then
