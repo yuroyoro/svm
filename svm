@@ -146,6 +146,8 @@ AVAILABLE_VERSIONS=`cat <<EOS
 2.13.0-M5
 2.13.0-RC1
 2.13.0-RC2
+2.13.0-RC3
+2.13.0
 EOS`
 
 # Utility to compare versions
