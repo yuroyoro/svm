@@ -204,7 +204,7 @@ fi
 path_included=0
 
 path=$PATH:
-while [ $path ]
+while [ "${path}" ]
 do
   p=${path%%:*}
   if [ "${BASE_DIR}/current/rt/bin" = "${p}" ] ; then
