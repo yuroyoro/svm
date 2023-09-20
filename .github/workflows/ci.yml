@@ -1,0 +1,15 @@
+on:
+  pull_request:
+  push:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: reviewdog/action-shellcheck@96fa305c16b0f9cc9b093af22dcd09de1c8f1c2d # v1.19.0
+      with:
+        reporter: github-check
+        level: warning
+        pattern: "svm"
