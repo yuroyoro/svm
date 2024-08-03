@@ -281,7 +281,7 @@ yes_no() {
 
 list(){
   case "`uname`" in
-    Darwin*)   find ${BASE_DIR} -maxdepth 1 -d -print0 | xargs -0 -n 1 basename | grep 'scala' | sed 's/scala-//' ;;
+    Darwin*)   find ${BASE_DIR} -maxdepth 1 -d -print0 | xargs -0 -n 1 basename | grep 'scala' | sed 's/scala-//' | sort ;;
     *)         find ${BASE_DIR} -maxdepth 1 -depth -printf "%f\n" | grep 'scala' | sed 's/scala-//' ;;
   esac
 }
