@@ -150,6 +150,7 @@ AVAILABLE_VERSIONS=`cat <<EOS
 2.12.17
 2.12.18
 2.12.19
+2.12.20
 2.13.0-M1
 2.13.0-M2
 2.13.0-M3
@@ -173,6 +174,8 @@ AVAILABLE_VERSIONS=`cat <<EOS
 2.13.12
 2.13.13
 2.13.14
+2.13.15
+2.13.16
 EOS`
 
 # Utility to compare versions
