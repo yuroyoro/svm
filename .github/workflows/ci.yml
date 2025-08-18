@@ -7,7 +7,7 @@ jobs:
     timeout-minutes: 5
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: reviewdog/action-shellcheck@1bb9751763fdfbee4b5043772c37374f103bff9e # v1.31.0
       with:
         reporter: github-check
