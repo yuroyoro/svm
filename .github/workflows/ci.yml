@@ -8,7 +8,7 @@ jobs:
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
     - uses: actions/checkout@v7
-    - uses: reviewdog/action-shellcheck@d0b8d5fd7fad6afdb6e1b6ce1778892be4d1f427 # v1.34.1
+    - uses: reviewdog/action-shellcheck@950c9d71535c8c49e5c029c33a438ade63b9009c # v1.35.1
       with:
         reporter: github-check
         level: warning
